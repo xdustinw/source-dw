@@ -2355,6 +2355,10 @@ blockquote.kg-blockquote-alt {
     color: var(--color-secondary-text);
 }
 
+blockquote > p {
+    margin-block-start: 12px;
+}
+
 /* Button */
 
 .kg-card.kg-button-card .kg-btn {

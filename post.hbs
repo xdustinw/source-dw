@@ -52,6 +52,8 @@
 
     </article>
 
+
+
     {{#if comments}}
         <div class="gh-comments gh-canvas">
             {{comments}}
@@ -60,16 +62,52 @@
 
 </main>
 
+{{!-- {{#get "posts" include="authors" filter="authors:[{{authors[*].slug}}]+id:-{{id}}" limit="1" as |other_post|}}
+    {{#if other_post}} --}}
+    <section class="gh-container is-grid gh-outer">
+        <div class="gh-container-inner gh-inner">
+            {{!-- <h2 class="gh-container-title">Previous &amp; Next</h2> --}}
+            <main class="gh-main">
+                <div class="gh-feed" style="grid-template-columns: repeat(2, 1fr);">
+                {{!--Ghost's #previous_post and #next_post does not limit to current author, hence query previous/next manually here --}}
+                {{#get "posts" include="authors" filter="tag:{{primary_tag.slug}}+authors:[{{authors[*].slug}}]+published_at:<'{{published_at}}'" order='published_at desc' limit="1" as |previous|}}
+                    {{#if previous}}
+                        {{#foreach previous}}
+                            {{> "post-card" lazyLoad=true header_title="Previous"}}
+                        {{/foreach}}
+                    {{/if}}
+                {{/get}}
+                {{#get "posts" include="authors" filter="tag:{{primary_tag.slug}}+authors:[{{authors[*].slug}}]+published_at:>'{{published_at}}'" order='published_at asc' limit="1" as |next|}}
+                    {{#if next}}
+                        {{#foreach next}}
+                            {{> "post-card" lazyLoad=true header_title="Next"}}
+                        {{/foreach}}
+                    {{/if}}
+                {{/get}}
+                {{!--
+                {{#prev_post}}
+                    {{> "post-card" lazyLoad=true}}
+                {{/prev_post}}
+                {{#next_post}}
+                    {{> "post-card" lazyLoad=true}}
+                {{/next_post}}
+                --}}
+                </div>
+            </main>
+        </div>
+    </section>
+    {{!-- {{/if}}
+{{/get}} --}}
 {{/post}}
 
 {{#if @custom.show_related_articles}}
-    {{#get "posts" include="authors" filter="id:-{{post.id}}" limit="4" as |next|}}
-        {{#if next}}
+    {{#get "posts" include="authors,tags" filter="(tag:{{post.primary_tag.slug}},authors:[{{post.authors[*].slug}}])+id:-{{post.id}}" order='published_at desc' limit="4" as |related|}}
+        {{#if related}}
             <section class="gh-container is-grid gh-outer">
                 <div class="gh-container-inner gh-inner">
                     <h2 class="gh-container-title">Read more</h2>
                     <div class="gh-feed">
-                        {{#foreach next}}
+                        {{#foreach related}}
                             {{> "post-card" lazyLoad=true}}
                         {{/foreach}}
                     </div>
