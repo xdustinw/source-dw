@@ -61,7 +61,7 @@
         "defaults"
     ],
     "config": {
-        "posts_per_page": 12,
+        "posts_per_page": 20,
         "image_sizes": {
             "xs": {
                 "width": 160
@@ -158,7 +158,7 @@
             },
             "show_featured_posts": {
                 "type": "boolean",
-                "default": false,
+                "default": true,
                 "group": "homepage",
                 "visibility": "header_style:[Highlight, Magazine]"
             },
